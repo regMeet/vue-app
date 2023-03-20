@@ -4,18 +4,9 @@ import { ref, computed } from "vue";
 import { TimelinePost, today, thisWeek, thisMonth } from "../posts";
 import TimelineItem from "./TimelineItem.vue";
 import { usePosts } from "../stores/posts";
+import { periods, Period } from "../constants";
 
 const postsStore = usePosts();
-
-const periods = ["Today", "This Week", "This Month"] as const;
-
-type Period = typeof periods[number];
-
-const selectedPeriod = ref<Period>("Today");
-
-function selectPeriod(period: Period) {
-  selectedPeriod.value = period;
-}
 
 const posts = computed<TimelinePost[]>(() => {
   return postsStore.ids
@@ -27,11 +18,11 @@ const posts = computed<TimelinePost[]>(() => {
       };
     })
     .filter((post) => {
-      if (selectedPeriod.value === "Today") {
+      if (postsStore.selectedPeriod === "Today") {
         return post.created >= DateTime.now().minus({ day: 1 });
       }
 
-      if (selectedPeriod.value === "This Week") {
+      if (postsStore.selectedPeriod === "This Week") {
         return post.created >= DateTime.now().minus({ week: 1 });
       }
 
@@ -46,8 +37,8 @@ const posts = computed<TimelinePost[]>(() => {
       <a
         v-for="period of periods"
         :key="period"
-        :class="{ 'is-active': selectedPeriod === period }"
-        @click="selectPeriod(period)"
+        :class="{ 'is-active': postsStore.selectedPeriod === period }"
+        @click="postsStore.setSelectedPeriod(period)"
       >
         {{ period }}
       </a>
