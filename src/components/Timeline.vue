@@ -18,11 +18,14 @@ function selectPeriod(period: Period) {
 }
 
 const posts = computed<TimelinePost[]>(() => {
-  return [today, thisWeek, thisMonth]
-    .map((post) => ({
-      ...post,
-      created: DateTime.fromISO(post.created),
-    }))
+  return postsStore.ids
+    .map((id) => {
+      const post = postsStore.all.get(id)!;
+      return {
+        ...post,
+        created: DateTime.fromISO(post.created),
+      };
+    })
     .filter((post) => {
       if (selectedPeriod.value === "Today") {
         return post.created >= DateTime.now().minus({ day: 1 });
@@ -38,8 +41,6 @@ const posts = computed<TimelinePost[]>(() => {
 </script>
 
 <template>
-  {{ postsStore.foo }}
-  <button @click="postsStore.updateFoo('bar')">Update</button>
   <nav class="is-primary panel">
     <span class="panel-tabs">
       <a
