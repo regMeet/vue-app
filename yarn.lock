@@ -203,6 +203,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/lodash@4.14":
+  version "4.14.191"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.191.tgz#09511e7f7cba275acd8b419ddac8da9a6a79e2fa"
+  integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
+
 "@types/luxon@2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-2.3.1.tgz#e34763178b46232e4c5f079f1706e18692415519"
@@ -647,6 +652,11 @@ he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
+highlight.js@11.5:
+  version "11.5.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.5.1.tgz#027c24e4509e2f4dcd00b4a6dda542ce0a1f7aea"
+  integrity sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==
+
 http-errors@1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.8.1.tgz#7c3f28577cbc8a207388455dbd62295ed07bd68c"
@@ -681,6 +691,11 @@ is-core-module@^2.9.0:
   integrity sha512-RRjxlvLDkD1YJwDbroBHMb+cukurkDWNyHx7D3oNB5x9rb5ogcksMC5wHCadcXoo67gVr/+3GFySh3134zi6rw==
   dependencies:
     has "^1.0.3"
+
+lodash@4.14:
+  version "4.14.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.14.2.tgz#bbccce6373a400fbfd0a8c67ca42f6d1ef416432"
+  integrity sha512-L5PieqD7phyya3Uave78zpkVE5uc022V1h5iAWt7q1z71SS7Rtw5OX8Q30OZ4L8GVtRLKxI1mn76X288L7EdeA==
 
 luxon@3.2.1:
   version "3.2.1"
