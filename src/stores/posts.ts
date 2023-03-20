@@ -42,6 +42,19 @@ export const usePosts = defineStore("posts", {
       this.ids = ids;
       this.all = all;
     },
+
+    createPost(post: TimelinePost) {
+      console.log("alan post.created", post.created);
+      const body = JSON.stringify({ ...post, created: post.created.toISO() });
+      console.log("alan       body", body);
+      return window.fetch("http://localhost:8000/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+    },
   },
 
   getters: {
