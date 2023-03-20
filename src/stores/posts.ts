@@ -4,11 +4,13 @@ interface PostsState {
   foo: string;
 }
 
+const initialState = {
+  foo: "foo1",
+};
+
 // name, state, update state
 export const usePosts = defineStore("posts", {
-  state: (): PostsState => ({
-    foo: "foo",
-  }),
+  state: (): PostsState => initialState,
   actions: {
     updateFoo(foo: string) {
       this.foo = foo;
