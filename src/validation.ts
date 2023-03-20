@@ -1,4 +1,4 @@
-interface Status {
+export interface Status {
   valid: boolean;
   message?: string;
 }
@@ -7,7 +7,7 @@ type Rule = (value: string) => Status;
 
 export function lenght({ min, max }: { min: number; max: number }): Rule {
   return function (value: string): Status {
-    const result = Boolean(value.length > min && value.length < max);
+    const result = Boolean(value.length >= min && value.length <= max);
 
     return {
       valid: result,
@@ -42,8 +42,8 @@ export function validate(value: string, rules: Rule[]): Status {
 }
 
 // console.log(validate("", [required]), validate("username", [required]));
-console.log(
-  validate("a", [lenght({ min: 5, max: 10 })]),
-  validate("aaaaaaaaaaa", [lenght({ min: 5, max: 10 })]),
-  validate("username", [lenght({ min: 5, max: 10 })])
-);
+// console.log(
+//   validate("a", [lenght({ min: 5, max: 10 })]),
+//   validate("aaaaaaaaaaa", [lenght({ min: 5, max: 10 })]),
+//   validate("username", [lenght({ min: 5, max: 10 })])
+// );
