@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-
 import FormInput from "./FormInput.vue";
 import { NewUser } from "../users";
 import { validate, lenght, required } from "../validation";
+import { useUsers } from "../stores/users";
+import { useModal } from "../composables/modal";
 
 const username = ref("");
 const usernameStatus = computed(() => {
@@ -19,7 +20,10 @@ const isInvalid = computed(() => {
   return !usernameStatus.value.valid || !passwordStatus.value.valid;
 });
 
-function handleSubmit() {
+const usersStore = useUsers();
+const modal = useModal();
+
+async function handleSubmit() {
   if (isInvalid.value) {
     return;
   }
@@ -28,14 +32,29 @@ function handleSubmit() {
     username: username.value,
     password: password.value,
   };
-  console.log("alan newUser", newUser);
+
+  try {
+    await usersStore.createUser(newUser);
+  } catch (e) {}
+
+  modal.hideModal();
 }
 </script>
 
 <template>
   <form class="form" @submit.prevent="handleSubmit">
-    <FormInput name="Username" v-model="username" :status="usernameStatus" />
-    <FormInput name="Password" v-model="password" :status="passwordStatus" />
+    <FormInput
+      name="Username"
+      v-model="username"
+      :status="usernameStatus"
+      type="text"
+    />
+    <FormInput
+      name="Password"
+      v-model="password"
+      :status="passwordStatus"
+      type="password"
+    />
     <button class="button" :disabled="isInvalid">Submit</button>
   </form>
 </template>
