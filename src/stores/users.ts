@@ -12,13 +12,19 @@ export const useUsers = defineStore("users", {
 
   actions: {
     async authenticate() {
-      const res = await window.fetch("/api/current-user", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const result = await res.json();
-      this.currentUserId = result.id;
+      try {
+        const res = await window.fetch("/api/current-user", {
+          headers: {
+            method: "GET",
+            "Content-Type": "application/json",
+          },
+        });
+
+        const result = await res.json();
+        this.currentUserId = result.id;
+      } catch (error) {
+        // first time might get 404
+      }
     },
     async logout() {
       await window.fetch("/api/logout", {
@@ -30,6 +36,19 @@ export const useUsers = defineStore("users", {
 
       this.currentUserId = undefined;
       return;
+    },
+    async loginUser(newUser: NewUser) {
+      const body = JSON.stringify(newUser);
+
+      const res = await window.fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+
+      return { error: [401, 404].includes(res.status) };
     },
     async createUser(newUser: NewUser) {
       const body = JSON.stringify(newUser);

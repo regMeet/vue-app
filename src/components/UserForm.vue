@@ -6,6 +6,10 @@ import { validate, lenght, required } from "../validation";
 import { useUsers } from "../stores/users";
 import { useModal } from "../composables/modal";
 
+defineProps<{
+  error?: string;
+}>();
+
 const emit = defineEmits<{
   (event: "submit", payload: NewUser): void;
 }>();
@@ -57,6 +61,9 @@ async function handleSubmit() {
       :status="passwordStatus"
       type="password"
     />
+    <div v-if="error" class="is-danger help">
+      {{ error }}
+    </div>
     <button class="button" :disabled="isInvalid">Submit</button>
   </form>
 </template>
