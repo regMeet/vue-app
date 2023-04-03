@@ -1,11 +1,14 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
+import bodyParser, { json } from "body-parser";
+import cookieParser from "cookie-parser";
+import jsonwebtoken from "jsonwebtoken";
 import { today, thisWeek, thisMonth, Post } from "../posts";
 import { NewUser, User } from "../users";
 
 const app = express();
 app.use(cors());
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 const allPosts = [today, thisWeek, thisMonth];
@@ -21,9 +24,33 @@ app.post<{}, {}, Post>("/posts", (req, res) => {
   res.json(post);
 });
 
+const SECRET = "my-secret";
+const COOKIE = "vuejs-jwt";
+
+function authenticate(id: string, req: Request, res: Response) {
+  const token = jsonwebtoken.sign({ id }, SECRET, {
+    issuer: "vuejs-course",
+    expiresIn: "30 days",
+  });
+  res.cookie(COOKIE, token, { httpOnly: true });
+  // token (sign)
+  // set a cookie
+}
+
+app.get("/current-user", (req, res) => {
+  try {
+    const token = req.cookies[COOKIE];
+    const result = jsonwebtoken.verify(token, SECRET) as { id: string };
+    res.json({ id: result.id });
+  } catch (error) {
+    res.status(404).end();
+  }
+});
+
 app.post<{}, {}, NewUser>("/users", (req, res) => {
   const user = { ...req.body, id: (Math.random() * 100000).toFixed() };
   allUsers.push(user);
+  authenticate(user.id, req, res);
   const { password, ...rest } = user;
   res.json(rest);
 });
