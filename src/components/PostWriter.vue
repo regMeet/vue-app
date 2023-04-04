@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch, watchEffect } from "vue";
-import { TimelinePost } from "../posts";
-import { useRouter } from "vue-router";
-import { marked } from "marked";
-import highlightjs from "highlight.js";
-import debounce from "lodash/debounce";
-import { usePosts } from "../stores/posts";
+import { ref, onMounted, watch, watchEffect } from 'vue';
+import { Post, TimelinePost } from '../posts';
+import { useRouter } from 'vue-router';
+import { marked } from 'marked';
+import highlightjs from 'highlight.js';
+import debounce from 'lodash/debounce';
+import { usePosts } from '../stores/posts';
 
 const props = defineProps<{
-  post: TimelinePost;
+  post: TimelinePost | Post;
 }>();
 
 const title = ref(props.post.title);
 const content = ref(props.post.markdown);
-const html = ref("");
+const html = ref('');
 const contentEditable = ref<HTMLDivElement>();
 
 const posts = usePosts();
@@ -55,14 +55,14 @@ watch(content, debounce(parseHtml, 250), {
 
 onMounted(() => {
   if (!contentEditable.value) {
-    throw Error("ContentEditable DOM node was not found.");
+    throw Error('ContentEditable DOM node was not found.');
   }
   contentEditable.value.innerText = content.value;
 });
 
 function handleInput() {
   if (!contentEditable.value) {
-    throw Error("ContentEditable DOM node was not found.");
+    throw Error('ContentEditable DOM node was not found.');
   }
   content.value = contentEditable.value.innerText;
 }
@@ -76,7 +76,7 @@ async function handleClick() {
   };
 
   await posts.createPost(newPost);
-  router.push("/");
+  router.push('/');
 }
 </script>
 
