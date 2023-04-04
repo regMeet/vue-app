@@ -1,10 +1,17 @@
 <script lang="ts" setup>
-import { useModal } from "../composables/modal";
-import { useUsers } from "../stores/users";
-import SignUpForm from "./UserForm.vue";
+import { useRouter } from 'vue-router';
+import { useModal } from '../composables/modal';
+import { useUsers } from '../stores/users';
+import SignUpForm from './UserForm.vue';
 
 const modal = useModal();
 const usersStore = useUsers();
+const router = useRouter();
+
+async function logout() {
+  usersStore.logout();
+  router.push({ path: '/' });
+}
 </script>
 
 <template>
@@ -12,7 +19,7 @@ const usersStore = useUsers();
     <div class="navbar-end">
       <div v-if="usersStore.currentUserId" class="buttons">
         <RouterLink to="/posts/new" class="button">New Post</RouterLink>
-        <button class="button" @click="usersStore.logout()">Log out</button>
+        <button class="button" @click="logout()">Log out</button>
       </div>
 
       <div v-else class="buttons">
