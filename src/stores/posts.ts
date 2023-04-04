@@ -1,7 +1,7 @@
-import { DateTime } from "luxon";
-import { defineStore } from "pinia";
-import { Period } from "../constants";
-import { Post, today, thisWeek, thisMonth, TimelinePost } from "../posts";
+import { DateTime } from 'luxon';
+import { defineStore } from 'pinia';
+import { Period } from '../constants';
+import { Post, today, thisWeek, thisMonth, TimelinePost } from '../posts';
 
 interface PostsState {
   ids: string[]; // ["1", "2"]
@@ -14,11 +14,11 @@ function delay() {
 }
 
 // name, state, update state
-export const usePosts = defineStore("posts", {
+export const usePosts = defineStore('posts', {
   state: (): PostsState => ({
     ids: [],
     all: new Map(),
-    selectedPeriod: "Today",
+    selectedPeriod: 'Today',
   }),
 
   actions: {
@@ -27,7 +27,7 @@ export const usePosts = defineStore("posts", {
     },
 
     async fetchPosts() {
-      const res = await window.fetch("/api/posts");
+      const res = await window.fetch('/api/posts');
       const data = (await res.json()) as Post[];
       // to simulate some delay
       await delay();
@@ -43,12 +43,12 @@ export const usePosts = defineStore("posts", {
       this.all = all;
     },
 
-    createPost(post: TimelinePost) {
-      const body = JSON.stringify({ ...post, created: post.created.toISO() });
-      return window.fetch("/api/posts", {
-        method: "POST",
+    createPost(post: Post) {
+      const body = JSON.stringify(post);
+      return window.fetch('/api/posts', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body,
       });
@@ -67,11 +67,11 @@ export const usePosts = defineStore("posts", {
           };
         })
         .filter((post) => {
-          if (state.selectedPeriod === "Today") {
+          if (state.selectedPeriod === 'Today') {
             return post.created >= DateTime.now().minus({ day: 1 });
           }
 
-          if (state.selectedPeriod === "This Week") {
+          if (state.selectedPeriod === 'This Week') {
             return post.created >= DateTime.now().minus({ week: 1 });
           }
 

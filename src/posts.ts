@@ -1,37 +1,41 @@
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon';
 
 export interface Post {
   id: string;
   title: string;
+  authorId: string;
   created: string;
   markdown: string;
   html: string;
 }
 
-export interface TimelinePost extends Omit<Post, "created"> {
+export interface TimelinePost extends Omit<Post, 'created'> {
   created: DateTime;
 }
 
 export const today: Post = {
-  id: "1",
-  title: "Today",
+  id: '1',
+  title: 'Today',
+  authorId: '-1',
   created: DateTime.now().toISO(),
-  markdown: "",
-  html: "",
+  markdown: '',
+  html: '',
 };
 
 export const thisWeek: Post = {
-  id: "2",
-  title: "This Week",
+  id: '2',
+  title: 'This Week',
+  authorId: '-1',
   created: DateTime.now().minus({ day: 5 }).toISO(),
-  markdown: "",
-  html: "",
+  markdown: '',
+  html: '',
 };
 
 export const thisMonth: Post = {
-  id: "3",
-  title: "This Month",
+  id: '3',
+  title: 'This Month',
+  authorId: '-1',
   created: DateTime.now().minus({ week: 3 }).toISO(),
-  markdown: "",
-  html: "",
+  markdown: '',
+  html: '',
 };
